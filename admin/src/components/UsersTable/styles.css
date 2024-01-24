@@ -1,0 +1,11 @@
+.searchInput {
+  width: 220px !important;
+  outline: none;
+}
+
+.searchInput:hover,
+.searchInput:active,
+.searchInput:focus,
+.searchInput:focus-within {
+  border-color: #fb923c;
+}
