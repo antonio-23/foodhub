@@ -19,7 +19,7 @@ export default function Home() {
 
   const { data: userInfo, isLoading } = useQuery({
     queryKey: ["userDetails"],
-    queryFn: () => getUserDetails(userId),
+    queryFn: () => getUserDetails,
   });
 
   const { data: allMeals, isLoading: isLoading3 } = useQuery({

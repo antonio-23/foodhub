@@ -5,6 +5,7 @@ import MacroItem from "./MacroItem";
 export default function MacroBars({
   totalCalories,
   macro,
+  title,
 }: {
   macro: {
     totalKcal: number;
@@ -13,6 +14,7 @@ export default function MacroBars({
     totalCarbs: number;
   };
   totalCalories: number;
+  title: string;
 }) {
   const diet = {
     maxCalories: 548,
@@ -26,8 +28,6 @@ export default function MacroBars({
   };
 
   const queryClient = useQueryClient();
-  const type: any = queryClient.getQueryData(["currentMeal"]);
-  const user: any = queryClient.getQueryData(["currentUser"]);
 
   const percentages = {
     percentOfAllCalories: (diet.curCalories / diet.maxCalories).toFixed(2),
@@ -42,7 +42,7 @@ export default function MacroBars({
     <View className="mx-5 mb-10 flex flex-col rounded-2xl bg-neutral-800 p-3 shadow-lg shadow-gray-500/40">
       <View className="flex flex-row items-center gap-5 pb-5">
         <Text className="pl-2 text-lg font-semibold text-white">
-          Total {type}
+          Total {title}
         </Text>
         <Text className="text-lg font-medium text-white">
           {totalCalories} kcal

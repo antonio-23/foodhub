@@ -7,7 +7,6 @@ import { convertDateToSupabaseFormat } from "../../../utils/toSupabaseDateConver
 import NavigationHeader from "../../../components/NavigationHeader";
 import Input from "../../../components/Input";
 import Spinner from "../../../components/Spinner";
-import ConfirmModal from "../../../components/ConfirmModal";
 import { ScrollView } from "react-native";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import Error from "../../../components/Error";
@@ -31,7 +30,11 @@ export default function NewMeal({
 
   const queryClient = useQueryClient();
   const userId = queryClient.getQueryData(["currentUserId"]);
-  const mealType: string = queryClient.getQueryData(["currentMeal"]) || "";
+  const mealData = queryClient.getQueryData<string[]>(["currentMeal"]) || [
+    "",
+    "",
+  ];
+  const [mealType, title] = mealData;
 
   const {
     control,
@@ -58,7 +61,6 @@ export default function NewMeal({
       mealType,
     };
 
-    // console.log(newMeal);
     mutate(newMeal);
   };
 
@@ -170,15 +172,8 @@ export default function NewMeal({
 
         <View className="flex flex-row items-center justify-evenly">
           <TouchableOpacity
-            onPress={() => setShowConfirmModal(true)}
-            className="w-5/12 rounded-3xl border border-orange-400 py-3"
-          >
-            <Text className="text-center text-lg text-orange-400">Anuluj</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
             onPress={handleSubmit(onSubmit)}
-            className="w-5/12 rounded-3xl bg-orange-400 py-3"
+            className="flex h-[60px] w-2/5 items-center justify-center rounded-full bg-orange-400 py-4 shadow-lg"
           >
             <Text className="text-center text-lg text-white">
               {isLoading ? <Spinner color="#fff" /> : "Dodaj"}
@@ -186,10 +181,6 @@ export default function NewMeal({
           </TouchableOpacity>
         </View>
       </ScrollView>
-
-      {showConfirmModal && (
-        <ConfirmModal setShowConfirmModal={setShowConfirmModal} />
-      )}
     </View>
   );
 }

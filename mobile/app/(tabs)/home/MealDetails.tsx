@@ -1,5 +1,5 @@
 import { ScrollView, Text, View } from "react-native";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import MacroBars from "./components/MacroBars";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { AntDesign } from "@expo/vector-icons";
@@ -15,9 +15,14 @@ import MealList from "./components/MealList";
 export default function MealDetails() {
   const [addingNewMeal, setAddingNewMeal] = useState<boolean>(false);
   const queryClient = useQueryClient();
+
   const userId: string = queryClient.getQueryData(["currentUserId"]) || "";
   const allMeals = queryClient.getQueryData(["mealsDetails"]);
-  const mealType: string = queryClient.getQueryData(["currentMeal"]) || "";
+  const mealData = queryClient.getQueryData<string[]>(["currentMeal"]) || [
+    "",
+    "",
+  ];
+  const [mealType, title] = mealData;
 
   const { data: meals, isLoading } = useQuery({
     queryKey: ["singleMealDetails"],
@@ -37,9 +42,13 @@ export default function MealDetails() {
   if (!addingNewMeal)
     return (
       <View className="h-full">
-        <NavigationHeader label={mealType} />
+        <NavigationHeader label={title} />
         <ScrollView>
-          <MacroBars macro={calculatedMacro} totalCalories={totalCalories} />
+          <MacroBars
+            macro={calculatedMacro}
+            totalCalories={totalCalories}
+            title={title}
+          />
 
           {meals?.length ? (
             <MealList meals={meals} />
