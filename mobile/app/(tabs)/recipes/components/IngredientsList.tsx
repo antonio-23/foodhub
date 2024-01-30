@@ -7,10 +7,10 @@ export default function IngredientsList({
   ingredients: string[];
 }) {
   return (
-    <View className="mx-4">
-      <Text className="mb-1 text-lg">Składniki</Text>
+    <View className="mx-5">
+      <Text className="text-xl font-medium">Składniki</Text>
       {ingredients.map((ingredient) => (
-        <Text key={ingredient} className="text-md ml-4">
+        <Text key={ingredient} className="ml-4 text-base">
           • {ingredient}
         </Text>
       ))}

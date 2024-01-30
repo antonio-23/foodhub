@@ -29,11 +29,11 @@ const WelcomeScreen = () => {
         resizeMode="cover"
         className="flex-1"
       >
-        <View className="mt-32 flex items-center justify-start">
+        <View className="mt-40 flex items-center justify-start">
           <Image source={images.logo} />
         </View>
 
-        <View className="flex min-h-screen justify-center gap-2 px-5">
+        <View className="flex min-h-screen justify-center gap-4 px-5">
           <TouchableOpacity
             className="rounded-full bg-orange-400 px-16 py-4"
             onPress={() => router.push("/login")}

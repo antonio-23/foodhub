@@ -11,8 +11,8 @@ import { Entypo } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import BackButton from "../components/BackButton";
-import IngredientsList from "../components/SingleRecipe/IngredientsList";
-import NutritionalBox from "../components/SingleRecipe/NutritionalBox";
+import IngredientsList from "./(tabs)/recipes/components/IngredientsList";
+import NutritionalBox from "./(tabs)/recipes/components/NutritionalBox";
 import { useQuery, useQueryClient } from "react-query";
 import { getRecipeDetails } from "../services/recipeAPI";
 import LoadingScreen from "../components/LoadingScreen";
@@ -86,14 +86,14 @@ export default function SingleRecipeView() {
 
             <IngredientsList ingredients={recipe.ingredients} />
 
-            <View className="mx-4 pb-6">
-              <Text className="mb-1 mt-2 text-lg">Przepis</Text>
+            <View className="mx-5 pb-10">
+              <Text className="mb-1 mt-2 text-xl font-medium">Przepis</Text>
               <Text className="ml-4">{recipe.description}</Text>
             </View>
           </View>
         </ScrollView>
 
-        <View className="absolute left-4 top-8 z-50 mt-7">
+        <View className="absolute left-5 top-16 z-50">
           <BackButton />
         </View>
       </View>
