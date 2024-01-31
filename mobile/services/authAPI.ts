@@ -69,6 +69,14 @@ export async function logIn({ email, password }: AuthCredentials) {
   return data;
 }
 
+export async function resetPassword(email: string) {
+  let { data, error } = await supabase.auth.resetPasswordForEmail(email);
+
+  if (error) throw new Error(error.message);
+
+  return data;
+}
+
 export async function getCurrentUser() {
   const { data: session } = await supabase.auth.getSession();
   if (!session.session) return null;
