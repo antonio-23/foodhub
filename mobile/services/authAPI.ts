@@ -16,6 +16,17 @@ export interface AuthCredentials {
   weightGoal?: number;
 }
 
+export async function emailCheck(email: string): Promise<boolean> {
+  const { data, error } = await supabase
+    .from("user_informations")
+    .select("email")
+    .eq("email", email);
+
+  if (error) throw new Error(error.message);
+
+  return data.length > 0;
+}
+
 export async function signUp({
   email,
   password,

@@ -9,10 +9,6 @@ import { AuthCredentials, signUp } from "../services/authAPI";
 import { useMutation } from "react-query";
 import { UserInformations, addUserInformation } from "../services/userService";
 
-/**
- * DO WYŚWIETLENIA DANYCH NA ZAJĘCIACH - POTEM USUNĄĆ TEN KOMPONENT
- */
-
 const TempDashboardScreen = () => {
   const user = useRegisterStore((state) => state.user);
   const {

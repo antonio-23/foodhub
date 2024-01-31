@@ -122,7 +122,7 @@ const LoginScreen = () => {
                 </TouchableOpacity>
                 <View className="flex justify-center pb-10 pt-4">
                   <Text className="text-center text-sm text-gray-500">
-                    Zapomniałeś hasła?
+                    Nie pamiętasz hasła?
                   </Text>
                 </View>
 

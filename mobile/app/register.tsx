@@ -10,6 +10,7 @@ import Input from "../components/Input";
 import { useRegisterStore } from "../store/register/registerStore";
 import KeyboardProvider from "../components/Keyboard";
 import Error from "../components/Error";
+import { emailCheck } from "../services/authAPI";
 
 interface FormData {
   name: string;
@@ -24,17 +25,23 @@ const RegisterScreen = () => {
     handleSubmit,
     getValues,
     formState: { errors },
+    setError,
   } = useForm<FormData>();
 
   const setUserCredentials = useRegisterStore(
     (state) => state.setUserCredentials,
   );
 
-  const onSubmit: SubmitHandler<FormData> = (formData) => {
-    const { name, email, password, password2 } = formData;
+  const onSubmit: SubmitHandler<FormData> = async (formData) => {
+    const { name, email, password } = formData;
+    const emailExist = await emailCheck(email);
 
-    setUserCredentials(name, email, password);
-    router.push("/RegisterFirstStep");
+    if (emailExist) {
+      setError("email", { type: "manual", message: "Email jest już zajęty" });
+    } else {
+      setUserCredentials(name, email, password);
+      router.push("/RegisterFirstStep");
+    }
   };
 
   return (
@@ -84,7 +91,7 @@ const RegisterScreen = () => {
                       required: "Email jest wymagany",
                       pattern: {
                         value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                        message: "Nieprawidłowy adres e-mail",
+                        message: "Nieprawidłowy adres email",
                       },
                     }}
                   />
