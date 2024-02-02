@@ -1,6 +1,6 @@
 import { router } from "expo-router";
 import supabase from "./supabase";
-import { EditProfileFormData } from "./profileService";
+import { EditMacrosFormData, EditProfileFormData } from "./profileService";
 
 export interface AuthCredentials {
   avatar?: string;
@@ -130,29 +130,25 @@ export async function updateCurrentUser(updatedData: {
     data,
   };
 
-  const newDataUserInformation = {
-    ...(name !== undefined && { name }),
-    ...(birthDate !== undefined && { birth_date: birthDate }),
-    updated_at: updatedAt,
-    // ...(avatar !== undefined && { data: { avatar } }),
-  };
+  try {
+    const { data: dataAuthUser, error: errorAuthUser } =
+      await supabase.auth.updateUser(newDataAuthUser);
 
-  const { data: dataAuthUser, error: errorAuthUser } =
-    await supabase.auth.updateUser(newDataAuthUser);
+    if (errorAuthUser) throw new Error(errorAuthUser.message);
 
-  const { data: dataUserInformation, error: errorUserInformation } =
-    await supabase
-      .from("user_informations")
-      .update(newDataUserInformation)
-      .eq("user_id", userIdFromDb)
-      .select();
+    if (!avatar) {
+      router.back();
 
-  if (errorAuthUser) throw new Error(errorAuthUser.message);
-  if (errorUserInformation) throw new Error(errorUserInformation.message);
-
-  if (!avatar) {
-    router.back();
-
-    return { dataAuthUser, dataUserInformation };
+      return { dataAuthUser };
+    }
+  } catch (error) {
+    console.error("An error occurred:", error);
+    throw error;
   }
+}
+
+export async function updateMacros(updatedData: EditMacrosFormData) {
+  const { data, error } = await supabase.auth.updateUser({ data: updatedData });
+  if (error) throw new Error(error.message);
+  return data;
 }

@@ -13,6 +13,10 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { EditMacrosFormData } from "../../../services/profileService";
 import Error from "../../../components/Error";
 import Spinner from "../../../components/Spinner";
+import { useMutation, useQueryClient } from "react-query";
+import { updateMacros as updateMacrosApi } from "../../../services/authAPI";
+import { router } from "expo-router";
+import { useProfile } from "./useProfile";
 
 export default function EditMacros() {
   const {
@@ -21,8 +25,23 @@ export default function EditMacros() {
     formState: { errors },
   } = useForm<EditMacrosFormData>();
 
+  const queryClient = useQueryClient();
+  const { user } = useProfile();
+  const { carb, fat, kcal, protein } = user?.user_metadata ?? {};
+
+  const { mutate: updateMacros } = useMutation({
+    mutationFn: updateMacrosApi,
+    onSuccess: () => {
+      queryClient.refetchQueries({ queryKey: ["user"] });
+    },
+    onError: (error) => {
+      console.error(error);
+    },
+  });
+
   const onSubmit: SubmitHandler<EditMacrosFormData> = (data) => {
-    console.log(data);
+    updateMacros(data);
+    router.back();
   };
 
   return (
@@ -48,7 +67,7 @@ export default function EditMacros() {
                       render={({ field }) => (
                         <Input
                           label="Kalorie"
-                          placeholder="Kalorie (kcal)"
+                          placeholder={kcal}
                           inputMode="numeric"
                           action={(value) => field.onChange(value)}
                         />
@@ -68,7 +87,7 @@ export default function EditMacros() {
                       render={({ field }) => (
                         <Input
                           label="Biało"
-                          placeholder="Białko"
+                          placeholder={protein}
                           inputMode="numeric"
                           action={(value) => field.onChange(value)}
                         />
@@ -88,7 +107,7 @@ export default function EditMacros() {
                       render={({ field }) => (
                         <Input
                           label="Tłuszcze"
-                          placeholder="Tłuszcze"
+                          placeholder={fat}
                           inputMode="numeric"
                           action={(value) => field.onChange(value)}
                         />
@@ -108,7 +127,7 @@ export default function EditMacros() {
                       render={({ field }) => (
                         <Input
                           label="Węglowodany"
-                          placeholder="Węglowodany"
+                          placeholder={carb}
                           inputMode="numeric"
                           action={(value) => field.onChange(value)}
                         />

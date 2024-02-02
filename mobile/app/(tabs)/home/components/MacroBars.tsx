@@ -1,6 +1,7 @@
 import { Text, View } from "react-native";
 import { useQueryClient } from "react-query";
 import MacroItem from "./MacroItem";
+import { useProfile } from "../../profile/useProfile";
 
 export default function MacroBars({
   totalCalories,
@@ -16,18 +17,19 @@ export default function MacroBars({
   totalCalories: number;
   title: string;
 }) {
+  const { user } = useProfile();
+  const { carb, fat, kcal, protein } = user?.user_metadata ?? {};
+
   const diet = {
-    maxCalories: 548,
+    maxCalories: kcal / 4,
     curCalories: macro?.totalKcal,
-    maxProtein: 72,
+    maxProtein: protein / 4,
     curProtein: macro?.totalProtein,
-    maxFat: 96,
+    maxFat: fat / 4,
     curFat: macro?.totalFats,
-    maxCarbohydrates: 332,
+    maxCarbohydrates: carb / 4,
     curCarbohydrates: macro?.totalCarbs,
   };
-
-  const queryClient = useQueryClient();
 
   const percentages = {
     percentOfAllCalories: (diet.curCalories / diet.maxCalories).toFixed(2),
