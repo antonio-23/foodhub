@@ -16,8 +16,9 @@ export interface EditMeasurementsFormData {
 }
 
 export interface EditMacrosFormData {
+  id?: string;
   kcal: number;
   protein: number;
   fat: number;
-  carb: number;
+  carbs: number;
 }

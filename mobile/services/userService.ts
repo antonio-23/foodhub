@@ -9,8 +9,9 @@ export interface UserInformations {
   height: number;
   actualWeight: number;
   weightGoal: number;
-  userId: string | undefined;
+  userId: string;
   email: string;
+  macros: {};
 }
 
 export async function addUserInformation({
@@ -24,6 +25,7 @@ export async function addUserInformation({
   weightGoal,
   userId,
   email,
+  macros,
 }: UserInformations) {
   const { data, error } = await supabase.from("user_informations").insert([
     {
@@ -37,6 +39,7 @@ export async function addUserInformation({
       weight_goal: weightGoal,
       user_id: userId,
       email,
+      macros,
     },
   ]);
 

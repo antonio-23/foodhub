@@ -1,14 +1,17 @@
 import { View } from "react-native";
 import MacroItem from "../app/(tabs)/home/components/MacroItem";
+import { useMacros } from "../app/(tabs)/profile/useMacros";
+import LoadingScreen from "./LoadingScreen";
+import { useProfile } from "../app/(tabs)/profile/useProfile";
 
-export default function MacroNutrients({
-  macro,
-  userInfo,
-}: {
-  macro: any;
-  userInfo: any;
-}) {
-  const { carb, fat, kcal, protein } = userInfo.user_metadata;
+export default function MacroNutrients({ macro }: { macro: any }) {
+  const { user, isLoading: isLoadingProfile } = useProfile();
+  const id = user?.id as string;
+  const { macros, isLoading } = useMacros(id);
+
+  if (isLoading) return <LoadingScreen />;
+
+  const { fat, protein, carbs, kcal } = macros?.at(0)?.macros;
 
   const diet = {
     maxCalories: kcal,
@@ -17,7 +20,7 @@ export default function MacroNutrients({
     curProtein: macro.totalProtein,
     maxFat: fat,
     curFat: macro.totalFats,
-    maxCarbohydrates: carb,
+    maxCarbohydrates: carbs,
     curCarbohydrates: macro.totalCarbs,
   };
 

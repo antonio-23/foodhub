@@ -1,7 +1,8 @@
 import { Text, View } from "react-native";
-import { useQueryClient } from "react-query";
 import MacroItem from "./MacroItem";
 import { useProfile } from "../../profile/useProfile";
+import { useMacros } from "../../profile/useMacros";
+import LoadingScreen from "../../../../components/LoadingScreen";
 
 export default function MacroBars({
   totalCalories,
@@ -17,8 +18,13 @@ export default function MacroBars({
   totalCalories: number;
   title: string;
 }) {
-  const { user } = useProfile();
-  const { carb, fat, kcal, protein } = user?.user_metadata ?? {};
+  const { user, isLoading: isLoadingProfile } = useProfile();
+  const id = user?.id as string;
+  const { macros, isLoading } = useMacros(id);
+
+  if (isLoading || isLoadingProfile) return <LoadingScreen />;
+
+  const { fat, protein, carbs, kcal } = macros?.at(0)?.macros;
 
   const diet = {
     maxCalories: kcal / 4,
@@ -27,7 +33,7 @@ export default function MacroBars({
     curProtein: macro?.totalProtein,
     maxFat: fat / 4,
     curFat: macro?.totalFats,
-    maxCarbohydrates: carb / 4,
+    maxCarbohydrates: carbs / 4,
     curCarbohydrates: macro?.totalCarbs,
   };
 

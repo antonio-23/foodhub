@@ -116,8 +116,7 @@ export async function logOut() {
 export async function updateCurrentUser(updatedData: {
   updatedData: EditProfileFormData;
 }) {
-  const { avatar, name, birthDate, password, userIdFromDb, updatedAt } =
-    updatedData.updatedData;
+  const { avatar, name, birthDate, password } = updatedData.updatedData;
 
   const data = {
     ...(name !== undefined && { name }),
@@ -147,8 +146,27 @@ export async function updateCurrentUser(updatedData: {
   }
 }
 
+export async function getMacros(id: string) {
+  let { data, error } = await supabase
+    .from("user_informations")
+    .select("macros")
+    .eq("user_id", id);
+
+  if (error) throw new Error(error.message);
+
+  return data;
+}
+
 export async function updateMacros(updatedData: EditMacrosFormData) {
-  const { data, error } = await supabase.auth.updateUser({ data: updatedData });
+  const { carbs, fat, kcal, protein, id } = updatedData;
+  const formData = { carbs, fat, kcal, protein };
+
+  const { data, error } = await supabase
+    .from("user_informations")
+    .update({ macros: formData })
+    .eq("user_id", id)
+    .select();
+
   if (error) throw new Error(error.message);
   return data;
 }

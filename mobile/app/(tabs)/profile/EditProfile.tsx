@@ -20,7 +20,6 @@ import { useUpdateProfile } from "./useUpdateProfile";
 import Spinner from "../../../components/Spinner";
 import { ImagePickerAsset } from "expo-image-picker";
 import { pickImage } from "../../../utils/pickImage";
-import { uploadImageToSupabase } from "../../../utils/uploadImageToStorage";
 import { convertDateToSupabaseFormat } from "../../../utils/toSupabaseDateConverter";
 
 export default function EditProfile() {
@@ -30,7 +29,8 @@ export default function EditProfile() {
 
   const { user } = useProfile();
   const { name: nameFromDb, birthDate: birthDateFromDb } = user?.user_metadata!;
-  const { email: emailFromDb, id: userIdFromDb } = user!;
+  const macros = user?.user_metadata.macros;
+  const { email: emailFromDb } = user!;
 
   const { isLoading, updateProfile } = useUpdateProfile();
 
@@ -56,11 +56,10 @@ export default function EditProfile() {
     // };
 
     // updateProfile(dataProfile);
-    const updatedAt = new Date();
+
     const updatedData = {
       ...data,
-      userIdFromDb: userIdFromDb,
-      updatedAt,
+      macros: macros,
     };
     updateProfile({ updatedData });
   };

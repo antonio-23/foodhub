@@ -43,7 +43,7 @@ export default function Home() {
       <ScrollView className="h-screen">
         <Header />
         <Calendar />
-        <MacroNutrients macro={calculatedMacro} userInfo={userInfo} />
+        <MacroNutrients macro={calculatedMacro} />
 
         <MealComponent
           title={"Śniadanie"}
