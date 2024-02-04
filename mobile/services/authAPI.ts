@@ -1,6 +1,10 @@
 import { router } from "expo-router";
 import supabase from "./supabase";
-import { EditMacrosFormData, EditProfileFormData } from "./profileService";
+import {
+  EditMacrosFormData,
+  EditMeasurementsFormData,
+  EditProfileFormData,
+} from "./profileService";
 
 export interface AuthCredentials {
   avatar?: string;
@@ -168,5 +172,39 @@ export async function updateMacros(updatedData: EditMacrosFormData) {
     .select();
 
   if (error) throw new Error(error.message);
+  return data;
+}
+
+export async function getMeasurements(id: string) {
+  let { data, error } = await supabase
+    .from("user_informations")
+    .select("physical_activity, height, actual_weight, weight_goal")
+    .eq("user_id", id);
+
+  if (error) throw new Error(error.message);
+
+  return data;
+}
+
+export async function updateMeasurements(
+  updatedData: EditMeasurementsFormData,
+) {
+  const {
+    height,
+    actualWeight: actual_weight,
+    weightGoal: weight_goal,
+    physicalActivity: physical_activity,
+    id,
+  } = updatedData;
+  const formData = { height, actual_weight, weight_goal, physical_activity };
+
+  const { data, error } = await supabase
+    .from("user_informations")
+    .update(formData)
+    .eq("user_id", id)
+    .select();
+
+  if (error) throw new Error(error.message);
+
   return data;
 }

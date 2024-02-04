@@ -13,10 +13,9 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { EditMacrosFormData } from "../../../services/profileService";
 import Error from "../../../components/Error";
 import Spinner from "../../../components/Spinner";
-import { useMutation, useQueryClient } from "react-query";
-import { updateMacros as updateMacrosApi } from "../../../services/authAPI";
+import { useQueryClient } from "react-query";
 import { router } from "expo-router";
-import { useMacros } from "./useMacros";
+import { useMacros, useUpdateMacros } from "./useMacros";
 import LoadingScreen from "../../../components/LoadingScreen";
 import { useProfile } from "./useProfile";
 
@@ -35,16 +34,7 @@ export default function EditMacros() {
   if (isLoadingProfile || isLoadingMacros) return <LoadingScreen />;
   const { carbs, fat, kcal, protein } = macros?.at(0)?.macros;
 
-  const { mutate: updateMacros } = useMutation({
-    mutationFn: updateMacrosApi,
-    onSuccess: () => {
-      queryClient.invalidateQueries("macros");
-      queryClient.refetchQueries({ queryKey: ["macros"] });
-    },
-    onError: (error) => {
-      console.error(error);
-    },
-  });
+  const { updateMacros } = useUpdateMacros();
 
   const onSubmit: SubmitHandler<EditMacrosFormData> = (formData) => {
     const data = { ...formData, id };

@@ -9,6 +9,7 @@ export interface EditProfileFormData {
 }
 
 export interface EditMeasurementsFormData {
+  id: string;
   height: number;
   actualWeight: number;
   weightGoal: number;
