@@ -1,6 +1,10 @@
 import { router } from "expo-router";
 import supabase from "./supabase";
-import { EditProfileFormData } from "./profileService";
+import {
+  EditMacrosFormData,
+  EditMeasurementsFormData,
+  EditProfileFormData,
+} from "./profileService";
 
 export interface AuthCredentials {
   avatar?: string;
@@ -14,6 +18,17 @@ export interface AuthCredentials {
   height?: number;
   actualWeight?: number;
   weightGoal?: number;
+}
+
+export async function emailCheck(email: string): Promise<boolean> {
+  const { data, error } = await supabase
+    .from("user_informations")
+    .select("email")
+    .eq("email", email);
+
+  if (error) throw new Error(error.message);
+
+  return data.length > 0;
 }
 
 export async function signUp({
@@ -58,6 +73,14 @@ export async function logIn({ email, password }: AuthCredentials) {
   return data;
 }
 
+export async function resetPassword(email: string) {
+  let { data, error } = await supabase.auth.resetPasswordForEmail(email);
+
+  if (error) throw new Error(error.message);
+
+  return data;
+}
+
 export async function getCurrentUser() {
   const { data: session } = await supabase.auth.getSession();
   if (!session.session) return null;
@@ -97,8 +120,7 @@ export async function logOut() {
 export async function updateCurrentUser(updatedData: {
   updatedData: EditProfileFormData;
 }) {
-  const { avatar, name, birthDate, password, userIdFromDb, updatedAt } =
-    updatedData.updatedData;
+  const { avatar, name, birthDate, password } = updatedData.updatedData;
 
   const data = {
     ...(name !== undefined && { name }),
@@ -111,29 +133,78 @@ export async function updateCurrentUser(updatedData: {
     data,
   };
 
-  const newDataUserInformation = {
-    ...(name !== undefined && { name }),
-    ...(birthDate !== undefined && { birth_date: birthDate }),
-    updated_at: updatedAt,
-    // ...(avatar !== undefined && { data: { avatar } }),
-  };
+  try {
+    const { data: dataAuthUser, error: errorAuthUser } =
+      await supabase.auth.updateUser(newDataAuthUser);
 
-  const { data: dataAuthUser, error: errorAuthUser } =
-    await supabase.auth.updateUser(newDataAuthUser);
+    if (errorAuthUser) throw new Error(errorAuthUser.message);
 
-  const { data: dataUserInformation, error: errorUserInformation } =
-    await supabase
-      .from("user_informations")
-      .update(newDataUserInformation)
-      .eq("user_id", userIdFromDb)
-      .select();
+    if (!avatar) {
+      router.back();
 
-  if (errorAuthUser) throw new Error(errorAuthUser.message);
-  if (errorUserInformation) throw new Error(errorUserInformation.message);
-
-  if (!avatar) {
-    router.back();
-
-    return { dataAuthUser, dataUserInformation };
+      return { dataAuthUser };
+    }
+  } catch (error) {
+    console.error("An error occurred:", error);
+    throw error;
   }
+}
+
+export async function getMacros(id: string) {
+  let { data, error } = await supabase
+    .from("user_informations")
+    .select("macros")
+    .eq("user_id", id);
+
+  if (error) throw new Error(error.message);
+
+  return data;
+}
+
+export async function updateMacros(updatedData: EditMacrosFormData) {
+  const { carbs, fat, kcal, protein, id } = updatedData;
+  const formData = { carbs, fat, kcal, protein };
+
+  const { data, error } = await supabase
+    .from("user_informations")
+    .update({ macros: formData })
+    .eq("user_id", id)
+    .select();
+
+  if (error) throw new Error(error.message);
+  return data;
+}
+
+export async function getMeasurements(id: string) {
+  let { data, error } = await supabase
+    .from("user_informations")
+    .select("physical_activity, height, actual_weight, weight_goal")
+    .eq("user_id", id);
+
+  if (error) throw new Error(error.message);
+
+  return data;
+}
+
+export async function updateMeasurements(
+  updatedData: EditMeasurementsFormData,
+) {
+  const {
+    height,
+    actualWeight: actual_weight,
+    weightGoal: weight_goal,
+    physicalActivity: physical_activity,
+    id,
+  } = updatedData;
+  const formData = { height, actual_weight, weight_goal, physical_activity };
+
+  const { data, error } = await supabase
+    .from("user_informations")
+    .update(formData)
+    .eq("user_id", id)
+    .select();
+
+  if (error) throw new Error(error.message);
+
+  return data;
 }

@@ -43,10 +43,6 @@ export default function NewRecipe() {
       ...prevIngredient,
       { ingredient, quantity, unit, id },
     ]);
-
-    /**
-     * @todo Zrobić czyszczenie formularza po dodaniu składnika
-     */
   };
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
@@ -75,10 +71,6 @@ export default function NewRecipe() {
       },
     };
 
-    /**
-     * @error Funkcja działa natomiast jest jakiś błąd z przekazaniem typów w TS
-     */
-    // @ts-ignore
     mutate(newRecipe);
   };
 

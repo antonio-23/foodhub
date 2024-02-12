@@ -59,6 +59,7 @@ export default function RegisterThirdStep() {
   const onSubmit: SubmitHandler<FormData> = (data) => {
     const { gender, birthDate, actualWeight, height, weightGoal } = data;
     setUserParameters(gender, birthDate, actualWeight, height, weightGoal);
+
     router.push("/tempDashboard");
   };
 

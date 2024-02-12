@@ -34,6 +34,7 @@ interface Item {
   id: number;
   emoji: string;
   text: string;
+  macros: { kcal: number; protein: number; carbs: number; fat: number };
   value: WeightManagementGoal;
   selected: boolean;
 }
@@ -44,6 +45,7 @@ export default function RegisterFirstStepScreen() {
       id: 1,
       emoji: "🔥",
       text: "Utrata masy ciała",
+      macros: { kcal: 1750, protein: 700, carbs: 525, fat: 525 },
       value: WeightManagementGoal.WEIGHT_LOSS,
       selected: false,
     },
@@ -51,6 +53,7 @@ export default function RegisterFirstStepScreen() {
       id: 2,
       emoji: "💪",
       text: "Przyrost masy ciała",
+      macros: { kcal: 2750, protein: 1100, carbs: 825, fat: 825 },
       value: WeightManagementGoal.WEIGHT_GAIN,
       selected: false,
     },
@@ -58,6 +61,7 @@ export default function RegisterFirstStepScreen() {
       id: 3,
       emoji: "⚖️",
       text: "Utrzymanie masy ciała",
+      macros: { kcal: 2250, protein: 900, carbs: 675, fat: 675 },
       value: WeightManagementGoal.WEIGHT_MAINTENANCE,
       selected: false,
     },
@@ -78,7 +82,7 @@ export default function RegisterFirstStepScreen() {
   function handleGoToSecondStep() {
     const selectedGoal = isSelected.filter((item) => item.selected)[0];
     if (selectedGoal !== undefined) {
-      setUserWeightManagementGoal(selectedGoal.value);
+      setUserWeightManagementGoal(selectedGoal.value, selectedGoal.macros);
       router.push("/RegisterSecondStep");
     }
   }

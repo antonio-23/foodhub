@@ -6,10 +6,11 @@ import MacroNutrients from "../../../components/MacroNutrients";
 import LoadingScreen from "../../../components/LoadingScreen";
 import MealComponent from "./components/MealComponent";
 import { useQuery, useQueryClient } from "react-query";
-import { getLoggedUserId, getUserDetails } from "../../../services/authAPI";
+import { getLoggedUserId } from "../../../services/authAPI";
 import { getAllMeals } from "../../../services/mealsAPI";
 import { getTotalMacro } from "../../../utils/getTotalMacro";
 import { getCalculatedMacroOfAllMeals } from "../../../utils/getCalculatedMacroOfAllMeals";
+import { useProfile } from "../profile/useProfile";
 
 export default function Home() {
   const { data: userId, isLoading: isLoading2 } = useQuery({
@@ -17,10 +18,7 @@ export default function Home() {
     queryKey: ["currentUserId"],
   });
 
-  const { data: userInfo, isLoading } = useQuery({
-    queryKey: ["userDetails"],
-    queryFn: () => getUserDetails(userId),
-  });
+  const { user: userInfo, isLoading } = useProfile();
 
   const { data: allMeals, isLoading: isLoading3 } = useQuery({
     queryKey: ["mealsDetails"],
@@ -73,10 +71,10 @@ export default function Home() {
           title={"Przekąska"}
           name={"snacks"}
           calories={{
-            total: totalSuppers.totalKcal,
-            proteins: totalSuppers.totalProteins,
-            fats: totalSuppers.totalFats,
-            carbs: totalSuppers.totalCarbs,
+            total: totalSnacks.totalKcal,
+            proteins: totalSnacks.totalProteins,
+            fats: totalSnacks.totalFats,
+            carbs: totalSnacks.totalCarbs,
           }}
         />
 

@@ -120,11 +120,14 @@ const LoginScreen = () => {
                     {isLoading ? <Spinner color="#fff" /> : "Logowanie"}
                   </Text>
                 </TouchableOpacity>
-                <View className="flex justify-center pb-10 pt-4">
+                <TouchableOpacity
+                  onPress={() => router.push("/ForgottenPassword")}
+                  className="flex justify-center pb-10 pt-4"
+                >
                   <Text className="text-center text-sm text-gray-500">
-                    Zapomniałeś hasła?
+                    Nie pamiętasz hasła?
                   </Text>
-                </View>
+                </TouchableOpacity>
 
                 <Bubbles />
               </View>

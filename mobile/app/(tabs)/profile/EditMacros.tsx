@@ -13,6 +13,11 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { EditMacrosFormData } from "../../../services/profileService";
 import Error from "../../../components/Error";
 import Spinner from "../../../components/Spinner";
+import { useQueryClient } from "react-query";
+import { router } from "expo-router";
+import { useMacros, useUpdateMacros } from "./useMacros";
+import LoadingScreen from "../../../components/LoadingScreen";
+import { useProfile } from "./useProfile";
 
 export default function EditMacros() {
   const {
@@ -21,8 +26,20 @@ export default function EditMacros() {
     formState: { errors },
   } = useForm<EditMacrosFormData>();
 
-  const onSubmit: SubmitHandler<EditMacrosFormData> = (data) => {
-    console.log(data);
+  const queryClient = useQueryClient();
+
+  const { user, isLoading: isLoadingProfile } = useProfile();
+  const id = user?.id as string;
+  const { macros, isLoading: isLoadingMacros } = useMacros(id);
+  if (isLoadingProfile || isLoadingMacros) return <LoadingScreen />;
+  const { carbs, fat, kcal, protein } = macros?.at(0)?.macros;
+
+  const { updateMacros } = useUpdateMacros();
+
+  const onSubmit: SubmitHandler<EditMacrosFormData> = (formData) => {
+    const data = { ...formData, id };
+    updateMacros(data);
+    router.back();
   };
 
   return (
@@ -40,6 +57,7 @@ export default function EditMacros() {
                       name="kcal"
                       control={control}
                       rules={{
+                        required: "Należy podać ilość",
                         pattern: {
                           value: /^[0-9]+$/,
                           message: "Wprowadź poprawną liczbę",
@@ -48,8 +66,8 @@ export default function EditMacros() {
                       render={({ field }) => (
                         <Input
                           label="Kalorie"
-                          placeholder="Kalorie (kcal)"
                           inputMode="numeric"
+                          placeholder={String(kcal)}
                           action={(value) => field.onChange(value)}
                         />
                       )}
@@ -60,6 +78,7 @@ export default function EditMacros() {
                       name="protein"
                       control={control}
                       rules={{
+                        required: "Należy podać ilość",
                         pattern: {
                           value: /^[0-9]+$/,
                           message: "Wprowadź poprawną liczbę",
@@ -68,8 +87,8 @@ export default function EditMacros() {
                       render={({ field }) => (
                         <Input
                           label="Biało"
-                          placeholder="Białko"
                           inputMode="numeric"
+                          placeholder={String(protein)}
                           action={(value) => field.onChange(value)}
                         />
                       )}
@@ -80,6 +99,7 @@ export default function EditMacros() {
                       name="fat"
                       control={control}
                       rules={{
+                        required: "Należy podać ilość",
                         pattern: {
                           value: /^[0-9]+$/,
                           message: "Wprowadź poprawną liczbę",
@@ -88,8 +108,8 @@ export default function EditMacros() {
                       render={({ field }) => (
                         <Input
                           label="Tłuszcze"
-                          placeholder="Tłuszcze"
                           inputMode="numeric"
+                          placeholder={String(fat)}
                           action={(value) => field.onChange(value)}
                         />
                       )}
@@ -97,9 +117,10 @@ export default function EditMacros() {
                     {errors.fat && <Error>{errors.fat.message}</Error>}
 
                     <Controller
-                      name="carb"
+                      name="carbs"
                       control={control}
                       rules={{
+                        required: "Należy podać ilość",
                         pattern: {
                           value: /^[0-9]+$/,
                           message: "Wprowadź poprawną liczbę",
@@ -108,13 +129,13 @@ export default function EditMacros() {
                       render={({ field }) => (
                         <Input
                           label="Węglowodany"
-                          placeholder="Węglowodany"
                           inputMode="numeric"
+                          placeholder={String(carbs)}
                           action={(value) => field.onChange(value)}
                         />
                       )}
                     />
-                    {errors.carb && <Error>{errors.carb.message}</Error>}
+                    {errors.carbs && <Error>{errors.carbs.message}</Error>}
                   </View>
 
                   <View className="flex items-center justify-center">

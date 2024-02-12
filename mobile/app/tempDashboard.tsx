@@ -9,10 +9,6 @@ import { AuthCredentials, signUp } from "../services/authAPI";
 import { useMutation } from "react-query";
 import { UserInformations, addUserInformation } from "../services/userService";
 
-/**
- * DO WYŚWIETLENIA DANYCH NA ZAJĘCIACH - POTEM USUNĄĆ TEN KOMPONENT
- */
-
 const TempDashboardScreen = () => {
   const user = useRegisterStore((state) => state.user);
   const {
@@ -26,6 +22,7 @@ const TempDashboardScreen = () => {
     height,
     actualWeight,
     weightGoal,
+    macros,
   } = user;
 
   const {
@@ -50,6 +47,7 @@ const TempDashboardScreen = () => {
           actualWeight,
           weightGoal,
           userId: data.user.id,
+          macros,
         });
         router.push("/login");
       },
@@ -121,6 +119,10 @@ const TempDashboardScreen = () => {
           </Text>
           <Text className="flex-0 my-1 text-left text-sm font-medium">
             Waga docelowa: {weightGoal}
+          </Text>
+          <Text className="flex-0 my-1 text-left text-sm font-medium">
+            Makroskładniki:
+            {Object.entries(macros).map(([key, value]) => `${key}: ${value} `)}
           </Text>
         </View>
         <View className="flex flex-col items-center justify-center">

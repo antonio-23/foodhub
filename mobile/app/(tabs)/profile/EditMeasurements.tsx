@@ -14,6 +14,9 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { EditMeasurementsFormData } from "../../../services/profileService";
 import Error from "../../../components/Error";
 import Spinner from "../../../components/Spinner";
+import { useActivity, useUpdateActivity } from "./useActivity";
+import LoadingScreen from "../../../components/LoadingScreen";
+import { router } from "expo-router";
 
 interface Item {
   label: string;
@@ -30,7 +33,10 @@ export default function EditMeasurements() {
     { label: "Wysoki", value: "HIGH" },
   ]);
 
-  const { user } = useProfile();
+  const { user, isLoading } = useProfile();
+  const id = user?.id as string;
+  const { activity, isLoadingActivity } = useActivity(id);
+  const { updateActivity, isUpdating } = useUpdateActivity();
 
   const {
     control,
@@ -38,16 +44,15 @@ export default function EditMeasurements() {
     formState: { errors },
   } = useForm<EditMeasurementsFormData>();
 
-  const {
-    actualWeight = 0,
-    height = 0,
-    physicalActivity = "",
-    weightGoal = 0,
-  } = user?.user_metadata ?? {};
+  const { actual_weight, height, physical_activity, weight_goal } =
+    activity?.at(0) || {};
 
   const onSubmit: SubmitHandler<EditMeasurementsFormData> = (data) => {
-    console.log(data);
+    updateActivity({ ...data, id });
+    router.back();
   };
+
+  if (isLoadingActivity || isLoading) return <LoadingScreen />;
 
   return (
     <SafeAreaView>
@@ -69,7 +74,7 @@ export default function EditMeasurements() {
                 render={({ field }) => (
                   <Input
                     label="Wzrost"
-                    placeholder={height}
+                    placeholder={String(height)}
                     inputMode="numeric"
                     action={(value) => field.onChange(value)}
                   />
@@ -89,7 +94,7 @@ export default function EditMeasurements() {
                 render={({ field }) => (
                   <Input
                     label="Masa ciała aktualna"
-                    placeholder={actualWeight}
+                    placeholder={String(actual_weight)}
                     inputMode="numeric"
                     action={(value) => field.onChange(value)}
                   />
@@ -111,7 +116,7 @@ export default function EditMeasurements() {
                 render={({ field }) => (
                   <Input
                     label="Masa ciała docelowa"
-                    placeholder={weightGoal}
+                    placeholder={String(weight_goal)}
                     inputMode="numeric"
                     action={(value) => field.onChange(value)}
                   />
@@ -129,7 +134,7 @@ export default function EditMeasurements() {
                   control={control}
                   render={({ field }) => (
                     <DropDownPicker
-                      placeholder="Wybierz aktywność fizyczną"
+                      placeholder={String(physical_activity)}
                       placeholderStyle={{
                         color: "#6b7280",
                         fontSize: 14,

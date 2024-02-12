@@ -22,10 +22,7 @@ export default function MealComponent({
   const queryClient = useQueryClient();
 
   function handleClick() {
-    queryClient.setQueryData(["currentMeal"], name);
-    /**
-     * @todo Trzeba jakoś przekazać props z title do MealDetails
-     */
+    queryClient.setQueryData(["currentMeal"], [name, title]);
     router.push("/(tabs)/home/MealDetails");
   }
 

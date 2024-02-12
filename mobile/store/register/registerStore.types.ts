@@ -25,20 +25,20 @@ export interface RegisterState {
     physicalActivity: PhysicalActivity;
     gender: Gender;
     birthDate: string;
-    // birthDate: Date;
     height: number;
     actualWeight: number;
     weightGoal: number;
+    macros: {};
   };
   setUserCredentials: (name: string, email: string, password: string) => void;
   setUserWeightManagementGoal: (
     weightManagementGoal: WeightManagementGoal,
+    macros: {},
   ) => void;
   setPhysicalActivity: (physicalActivity: PhysicalActivity) => void;
   setUserParameters: (
     gender: Gender,
     birthDate: string,
-    // birthDate: Date,
     height: number,
     actualWeight: number,
     weightGoal: number,

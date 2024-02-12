@@ -1,16 +1,26 @@
 import { View } from "react-native";
 import MacroItem from "../app/(tabs)/home/components/MacroItem";
+import { useMacros } from "../app/(tabs)/profile/useMacros";
+import LoadingScreen from "./LoadingScreen";
+import { useProfile } from "../app/(tabs)/profile/useProfile";
 
 export default function MacroNutrients({ macro }: { macro: any }) {
-  // TO SA DANE DO TESTU JAK TO BEDZIE WYGLADAC OBIEKTY diet ORAZ percentages BEDA FETCHOWANE Z BAZY / POTEM DO USUNIECIA
+  const { user, isLoading: isLoadingProfile } = useProfile();
+  const id = user?.id as string;
+  const { macros, isLoading } = useMacros(id);
+
+  if (isLoading) return <LoadingScreen />;
+
+  const { fat, protein, carbs, kcal } = macros?.at(0)?.macros;
+
   const diet = {
-    maxCalories: 3533,
+    maxCalories: kcal,
     curCalories: macro.totalKcal,
-    maxProtein: 167,
+    maxProtein: protein,
     curProtein: macro.totalProtein,
-    maxFat: 112,
+    maxFat: fat,
     curFat: macro.totalFats,
-    maxCarbohydrates: 528,
+    maxCarbohydrates: carbs,
     curCarbohydrates: macro.totalCarbs,
   };
 

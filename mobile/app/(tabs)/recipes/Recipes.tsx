@@ -64,7 +64,7 @@ export default function Recipes() {
           <TouchableOpacity
             onPress={() => router.push("/(tabs)/recipes/NewRecipe")}
           >
-            <View className=" h-14 w-14 items-center justify-center rounded-full bg-orange-500  shadow-lg shadow-orange-500/40">
+            <View className=" h-14 w-14 items-center justify-center rounded-full bg-orange-500 shadow-lg shadow-orange-500/40">
               <AntDesign name="plus" size={28} color="white" />
             </View>
           </TouchableOpacity>

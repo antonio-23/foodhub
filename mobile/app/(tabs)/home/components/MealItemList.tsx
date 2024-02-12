@@ -8,17 +8,23 @@ interface DeleteMealVariables {
   mealType: string;
 }
 
-export function MealItemList({ item }: { item?: any }) {
+export function MealItemList({ item, id }: { item?: any; id: number }) {
   const queryClient = useQueryClient();
-  const mealType: string = queryClient.getQueryData(["currentMeal"]) || "";
 
-  const { isLoading: isDeleting, mutate: deleteMeal } = useMutation<
+  const mealData = queryClient.getQueryData<string[]>(["currentMeal"]) || [
+    "",
+    "",
+  ];
+
+  const [mealType] = mealData;
+
+  const { mutate: deleteMeal } = useMutation<
     null,
     unknown,
     DeleteMealVariables,
     unknown
   >({
-    mutationFn: deleteMealApi,
+    mutationFn: () => deleteMealApi({ id, mealType }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["mealsDetails"] });
     },

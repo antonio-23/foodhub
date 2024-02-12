@@ -18,6 +18,7 @@ export const useRegisterStore = create<RegisterState>((set) => ({
     height: 0,
     actualWeight: 0,
     weightGoal: 0,
+    macros: {},
   },
   setUserCredentials: (name, email, password) =>
     set((state) => ({
@@ -28,11 +29,12 @@ export const useRegisterStore = create<RegisterState>((set) => ({
         password,
       },
     })),
-  setUserWeightManagementGoal: (weightManagementGoal) =>
+  setUserWeightManagementGoal: (weightManagementGoal, macros) =>
     set((state) => ({
       user: {
         ...state.user,
         weightManagementGoal,
+        macros,
       },
     })),
   setPhysicalActivity: (physicalActivity) =>

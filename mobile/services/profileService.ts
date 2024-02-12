@@ -9,6 +9,7 @@ export interface EditProfileFormData {
 }
 
 export interface EditMeasurementsFormData {
+  id: string;
   height: number;
   actualWeight: number;
   weightGoal: number;
@@ -16,8 +17,9 @@ export interface EditMeasurementsFormData {
 }
 
 export interface EditMacrosFormData {
+  id?: string;
   kcal: number;
   protein: number;
   fat: number;
-  carb: number;
+  carbs: number;
 }

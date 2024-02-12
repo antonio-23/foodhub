@@ -1,10 +1,13 @@
 import { Text, View } from "react-native";
-import { useQueryClient } from "react-query";
 import MacroItem from "./MacroItem";
+import { useProfile } from "../../profile/useProfile";
+import { useMacros } from "../../profile/useMacros";
+import LoadingScreen from "../../../../components/LoadingScreen";
 
 export default function MacroBars({
   totalCalories,
   macro,
+  title,
 }: {
   macro: {
     totalKcal: number;
@@ -13,21 +16,26 @@ export default function MacroBars({
     totalCarbs: number;
   };
   totalCalories: number;
+  title: string;
 }) {
+  const { user, isLoading: isLoadingProfile } = useProfile();
+  const id = user?.id as string;
+  const { macros, isLoading } = useMacros(id);
+
+  if (isLoading || isLoadingProfile) return <LoadingScreen />;
+
+  const { fat, protein, carbs, kcal } = macros?.at(0)?.macros;
+
   const diet = {
-    maxCalories: 548,
+    maxCalories: kcal / 4,
     curCalories: macro?.totalKcal,
-    maxProtein: 72,
+    maxProtein: protein / 4,
     curProtein: macro?.totalProtein,
-    maxFat: 96,
+    maxFat: fat / 4,
     curFat: macro?.totalFats,
-    maxCarbohydrates: 332,
+    maxCarbohydrates: carbs / 4,
     curCarbohydrates: macro?.totalCarbs,
   };
-
-  const queryClient = useQueryClient();
-  const type: any = queryClient.getQueryData(["currentMeal"]);
-  const user: any = queryClient.getQueryData(["currentUser"]);
 
   const percentages = {
     percentOfAllCalories: (diet.curCalories / diet.maxCalories).toFixed(2),
@@ -42,7 +50,7 @@ export default function MacroBars({
     <View className="mx-5 mb-10 flex flex-col rounded-2xl bg-neutral-800 p-3 shadow-lg shadow-gray-500/40">
       <View className="flex flex-row items-center gap-5 pb-5">
         <Text className="pl-2 text-lg font-semibold text-white">
-          Total {type}
+          Total {title}
         </Text>
         <Text className="text-lg font-medium text-white">
           {totalCalories} kcal
