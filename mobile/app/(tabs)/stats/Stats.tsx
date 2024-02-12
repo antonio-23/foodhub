@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, SafeAreaView } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "react-query";
 
@@ -8,6 +8,7 @@ import { useProfile } from "../profile/useProfile";
 import { getUserMacros } from "../../../services/userService";
 import LoadingScreen from "../../../components/LoadingScreen";
 import { ScrollView } from "react-native-gesture-handler";
+import NavigationHeader from "../../../components/NavigationHeader";
 
 interface MacroData {
   proteins: number;
@@ -99,19 +100,17 @@ export default function Stats() {
   if (isLoadingMacros || isLoadingProfile) return <LoadingScreen />;
 
   return (
-    <View>
-      <View className="mt-4 flex flex-row items-center justify-between px-4 py-4">
-        <BackButton />
-        <Text>Twoje statystyki</Text>
-        <View className="h-10 w-10"></View>
+    <SafeAreaView>
+      <View>
+        <NavigationHeader label="Statystyki" />
+        <ScrollView className="h-full">
+          {!!macros && (
+            <View className="my-4 flex flex-col px-4">
+              <AvgCaloriesChart chartData={chartData} />
+            </View>
+          )}
+        </ScrollView>
       </View>
-      <ScrollView className="h-full">
-        {!!macros && (
-          <View className="my-4 flex flex-col px-4">
-            <AvgCaloriesChart chartData={chartData} />
-          </View>
-        )}
-      </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }

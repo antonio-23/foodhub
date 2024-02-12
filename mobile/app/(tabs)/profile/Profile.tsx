@@ -48,7 +48,7 @@ export default function Profile() {
           </View>
 
           <View className="flex items-center">
-            <View className=" flex h-32  w-32 items-center ">
+            <View className="flex h-32 w-32 items-center">
               <Image
                 source={images.avatarTemp}
                 style={{ flex: 1, borderRadius: 32, resizeMode: "contain" }}

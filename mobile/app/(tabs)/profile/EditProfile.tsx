@@ -43,20 +43,6 @@ export default function EditProfile() {
   } = useForm<EditProfileFormData>();
 
   const onSubmit: SubmitHandler<EditProfileFormData> = async (data) => {
-    // Trzeba jeszcze dodać opcje przesyłania zdjęcia do bazy
-
-    // const avatar =
-    //   image !== null
-    //     ? await uploadImageToSupabase(image, nameFromDb)
-    //     : "https://static.thenounproject.com/png/4035887-200.png";
-
-    // const dataProfile = {
-    //   ...data,
-    //   avatar,
-    // };
-
-    // updateProfile(dataProfile);
-
     const updatedData = {
       ...data,
       macros: macros,

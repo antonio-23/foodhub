@@ -20,15 +20,3 @@ export function getArrayWitchDates() {
   return arr;
 }
 
-/*
-function getDate() {
-    const today = new Date();
-    const date = today.toLocaleString("default", {
-      weekday: "short",
-      day: "2-digit",
-    });
-    return date;
-  }
-
-  const arrWithNums = [-7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7];
-*/
