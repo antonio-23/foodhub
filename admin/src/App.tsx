@@ -1,44 +1,30 @@
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import Login from "./pages/Login";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import GlobalStyles from "./styles/GlobalStyles";
 import Dashboard from "./pages/Dashboard";
-import PageNotFound from "./pages/PageNotFound";
-import Recipes from "./pages/Recipes";
 import Users from "./pages/Users";
+import Recipes from "./pages/Recipes";
+import Login from "./pages/Login";
+import PageNotFound from "./pages/PageNotFound";
 import AppLayout from "./components/AppLayout";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { Toaster } from "react-hot-toast";
-import ProtectedRoute from "./routes/ProtectedRoute";
-
-const queryClient = new QueryClient();
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
+    <>
+      <GlobalStyles />
+
       <BrowserRouter>
         <Routes>
-          <Route index element={<Navigate replace to="login" />} />
-          <Route
-            element={
-              <ProtectedRoute>
-                <AppLayout />
-              </ProtectedRoute>
-            }
-          >
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="users" element={<Users />} />
-            <Route path="recipes" element={<Recipes />} />
+          <Route element={<AppLayout />}>
+            <Route index element={<Dashboard />} />
+            <Route path='dashboard' element={<Dashboard />} />
+            <Route path='users' element={<Users />} />
+            <Route path='recipes' element={<Recipes />} />
           </Route>
-          <Route path="*" element={<PageNotFound />} />
-          <Route path="login" element={<Login />} />
+          <Route path='login' element={<Login />} />
+          <Route path='*' element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>
-      <Toaster
-        toastOptions={{
-          style: { width: "30rem", height: "5rem", fontSize: "14px" },
-        }}
-        position="top-right"
-      />
-    </QueryClientProvider>
+    </>
   );
 }
 

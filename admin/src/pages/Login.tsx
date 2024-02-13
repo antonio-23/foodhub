@@ -1,12 +1,7 @@
-import BubbleBackground from "../components/BuubleBackground";
-import LoginForm from "../components/LoginForm";
+import React from "react";
 
 function Login() {
-  return (
-    <BubbleBackground>
-      <LoginForm />
-    </BubbleBackground>
-  );
+  return <div>Login</div>;
 }
 
 export default Login;

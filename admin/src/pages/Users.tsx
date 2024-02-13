@@ -1,16 +1,7 @@
-import Header from "../components/Header";
-import UsersTable from "../components/UsersTable";
-import { Content, Wrapper } from "./styles";
+import React from "react";
 
 function Users() {
-  return (
-    <Wrapper>
-      <Header label="Użytkownicy" />
-      <Content>
-        <UsersTable />
-      </Content>
-    </Wrapper>
-  );
+  return <div>Users</div>;
 }
 
 export default Users;

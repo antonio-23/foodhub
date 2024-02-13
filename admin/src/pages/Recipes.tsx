@@ -1,16 +1,7 @@
-import Header from "../components/Header";
-import RecipeList from "../components/RecipeList";
-import { Content, Wrapper } from "./styles";
+import React from "react";
 
 function Recipes() {
-  return (
-    <Wrapper>
-      <Header label="Przepisy" />
-      <Content>
-        <RecipeList />
-      </Content>
-    </Wrapper>
-  );
+  return <div>Recipes</div>;
 }
 
 export default Recipes;

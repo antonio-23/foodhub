@@ -1,18 +1,7 @@
-import Charts from "../components/Charts";
-import Header from "../components/Header";
-import Tickets from "../components/Tickets";
-import { Content, Wrapper } from "./styles";
+import React from "react";
 
 function Dashboard() {
-  return (
-    <Wrapper>
-      <Header label="Panel główny" />
-      <Content>
-        <Charts />
-        <Tickets />
-      </Content>
-    </Wrapper>
-  );
+  return <div>Dashboard</div>;
 }
 
 export default Dashboard;
