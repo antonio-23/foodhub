@@ -5,7 +5,7 @@ import Users from "./pages/Users";
 import Recipes from "./pages/Recipes";
 import Login from "./pages/Login";
 import PageNotFound from "./pages/PageNotFound";
-import AppLayout from "./components/AppLayout";
+import AppLayout from "./components/AppLayout/AppLayout";
 
 function App() {
   return (
