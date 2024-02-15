@@ -6,10 +6,11 @@ import Recipes from "./pages/Recipes";
 import Login from "./pages/Login";
 import PageNotFound from "./pages/PageNotFound";
 import AppLayout from "./components/AppLayout/AppLayout";
+import { DarkModeProvider } from "./context/DarkModeContext";
 
 function App() {
   return (
-    <>
+    <DarkModeProvider>
       <GlobalStyles />
 
       <BrowserRouter>
@@ -24,7 +25,7 @@ function App() {
           <Route path='*' element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>
-    </>
+    </DarkModeProvider>
   );
 }
 

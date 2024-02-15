@@ -19,6 +19,12 @@ const GlobalStyles = createGlobalStyle`
    --color-red-700: #b91c1c;
    --color-red-800: #991b1b;
 
+    --backdrop-color: rgba(255, 255, 255, 0.1);
+
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0px 0.6rem 2.4rem rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 2.4rem 3.2rem rgba(0, 0, 0, 0.12);
+
    --image-grayscale: 0;
    --image-opacity: 100%;
    }
@@ -43,23 +49,24 @@ const GlobalStyles = createGlobalStyle`
    --image-grayscale: 10%;
    --image-opacity: 90%;
    }
+
+   --color-brand-50: #fff7ed;
+   --color-brand-100: #ffedd5;
+   --color-brand-200: #fed7aa;
+   --color-brand-300: #fdba74;
+   --color-brand-400: #fb923c;
+   --color-brand-500: #f97316;
+   --color-brand-600: #ea580c;
+   --color-brand-700: #c2410c;
+   --color-brand-800: #9a3412;
+   --color-brand-900: #7c2d12;
+   
+   --border-radius-tiny: 3px;
+   --border-radius-sm: 5px;
+   --border-radius-md: 7px;
+   --border-radius-lg: 9px;
 }
 
---color-brand-50: #fff7ed;
---color-brand-100: #ffedd5;
---color-brand-200: #fed7aa;
---color-brand-300: #fdba74;
---color-brand-400: #fb923c;
---color-brand-500: #f97316;
---color-brand-600: #ea580c;
---color-brand-700: #c2410c;
---color-brand-800: #9a3412;
---color-brand-900: #7c2d12;
-
---border-radius-tiny: 3px;
---border-radius-sm: 5px;
---border-radius-md: 7px;
---border-radius-lg: 9px;
 
 
 *,
@@ -115,7 +122,7 @@ input:focus,
 button:focus,
 textarea:focus,
 select:focus {
-  /* outline: 2px solid var(--color-brand-600); */
+  outline: 2px solid var(--color-brand-400);
   outline-offset: -1px;
 }
 
