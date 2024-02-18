@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import PageNotFound from "./pages/PageNotFound";
 import AppLayout from "./components/AppLayout/AppLayout";
 import { DarkModeProvider } from "./context/DarkModeContext";
+import Account from "./pages/Account";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route path='dashboard' element={<Dashboard />} />
             <Route path='users' element={<Users />} />
             <Route path='recipes' element={<Recipes />} />
+            <Route path='account' element={<Account />} />
           </Route>
           <Route path='login' element={<Login />} />
           <Route path='*' element={<PageNotFound />} />
