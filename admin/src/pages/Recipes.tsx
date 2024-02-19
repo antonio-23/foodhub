@@ -1,7 +1,14 @@
-import React from "react";
+import { Heading } from "../components/Heading";
+import { Row } from "../components/Row";
 
 function Recipes() {
-  return <div>Recipes</div>;
+  return (
+    <>
+      <Row type='horizontal'>
+        <Heading as='h1'>Przepisy</Heading>
+      </Row>
+    </>
+  );
 }
 
 export default Recipes;

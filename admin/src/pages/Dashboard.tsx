@@ -1,7 +1,14 @@
-import React from "react";
+import { Heading } from "../components/Heading";
+import { Row } from "../components/Row";
 
 function Dashboard() {
-  return <div>Dashboard</div>;
+  return (
+    <>
+      <Row type='horizontal'>
+        <Heading as='h1'>Strona główna</Heading>
+      </Row>
+    </>
+  );
 }
 
 export default Dashboard;
