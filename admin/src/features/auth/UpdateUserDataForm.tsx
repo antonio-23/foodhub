@@ -1,40 +1,26 @@
-import { useState } from "react";
 import Button from "../../components/Button";
 import { Form } from "../../components/Form";
 import FormRow from "../../components/FormRow/FormRow";
 import { Input } from "../../components/Input";
 import { useUser } from "../../hooks/useUser";
 import { useUpdateUser } from "../../hooks/useUpdateUser";
+import { useForm } from "react-hook-form";
+
+interface IFormInput {
+  fullName: string;
+}
 
 export default function UpdateUserDataForm() {
   const { user } = useUser();
-  // const {
-  //   user: {
-  //     email,
-  //     user_metadata: { name },
-  //   },
-  // } = useUser();
-
-  const [fullName, setFullName] = useState("");
   const { updateUser, isUpdating } = useUpdateUser();
+  const { register, reset, handleSubmit } = useForm<IFormInput>();
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-
-    if (!fullName) return;
-
-    updateUser(
-      { name: fullName },
-      {
-        onSuccess: () => {
-          event.target.reset();
-        },
-      }
-    );
+  function onSubmit({ fullName }: IFormInput) {
+    updateUser({ name: fullName }, { onSuccess: () => reset() });
   }
 
   return (
-    <Form onClick={handleSubmit}>
+    <Form onSubmit={handleSubmit(onSubmit)}>
       <FormRow label='Email'>
         <Input type='email' value={user?.email} disabled />
       </FormRow>
@@ -43,13 +29,18 @@ export default function UpdateUserDataForm() {
         <Input
           type='text'
           id='fullName'
-          onChange={(e) => setFullName(e.target.value)}
           disabled={isUpdating}
+          {...register("fullName")}
         />
       </FormRow>
 
       <FormRow>
-        <Button type='reset' variation='secondary' disabled={isUpdating}>
+        <Button
+          type='reset'
+          variation='secondary'
+          disabled={isUpdating}
+          onClick={() => reset()}
+        >
           Anuluj
         </Button>
         <Button disabled={isUpdating}>Zapisz</Button>
