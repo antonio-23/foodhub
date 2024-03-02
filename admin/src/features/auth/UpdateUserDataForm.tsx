@@ -5,6 +5,7 @@ import { Input } from "../../components/Input";
 import { useUser } from "../../hooks/useUser";
 import { useUpdateUser } from "../../hooks/useUpdateUser";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 interface IFormInput {
   fullName: string;
@@ -16,7 +17,15 @@ export default function UpdateUserDataForm() {
   const { register, reset, handleSubmit } = useForm<IFormInput>();
 
   function onSubmit({ fullName }: IFormInput) {
-    updateUser({ name: fullName }, { onSuccess: () => reset() });
+    updateUser(
+      { name: fullName },
+      {
+        onSuccess: () => {
+          toast.success("Dane zaktualizowane pomyślnie");
+          reset();
+        },
+      }
+    );
   }
 
   return (

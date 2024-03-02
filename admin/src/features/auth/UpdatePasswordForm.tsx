@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import Button from "../../components/Button";
 import { Form } from "../../components/Form";
 import FormRow from "../../components/FormRow/FormRow";
@@ -17,7 +18,15 @@ export default function UpdatePasswordForm() {
   const { errors } = formState;
 
   function onSubmit({ password }: IFormInput) {
-    updateUser({ password }, { onSuccess: () => reset() });
+    updateUser(
+      { password },
+      {
+        onSuccess: () => {
+          toast.success("Hasło zaktualizowane pomyślnie");
+          reset();
+        },
+      }
+    );
   }
 
   return (

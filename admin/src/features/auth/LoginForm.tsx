@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import Button from "../../components/Button";
 import { Form } from "../../components/Form";
 import FormRowVertical from "../../components/FormRowVertical/FormRowVertical";
@@ -17,7 +18,12 @@ export default function LoginForm() {
     login(
       { email, password },
       {
-        onSettled: () => {
+        onSuccess: () => {
+          toast.success("Zalogowano pomyślnie");
+          reset();
+        },
+        onError: () => {
+          toast.error("Błąd logowania");
           reset();
         },
       }
