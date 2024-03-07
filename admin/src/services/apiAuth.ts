@@ -41,3 +41,10 @@ export async function updateCurrentUser({ password, name }: UserUpdateForm) {
 
   return data;
 }
+
+export async function allUsers() {
+  const { data, error } = await supabase.from("user_informations").select("*");
+  if (error) throw new Error(error.message);
+
+  return data;
+}

@@ -6,28 +6,27 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { useRecipe } from "../../hooks/useRecipe";
-import Spinner from "../Spinner";
+import { useAllUsers } from "../../hooks/useAllUsers";
 import { useState } from "react";
+import Spinner from "../Spinner";
 import Table from "../Table/Table";
 
-type Recipe = {
+type User = {
   id: string;
-  recipe_name: string;
-  ingredients: string;
-  content_of_recipe: string;
-  preparation_time: number;
-  number_of_servings: number;
-  caloric_value: number;
-  carbohydrates: number;
-  fats: number;
-  protein: number;
-  photo_url: string;
+  name: string;
+  email: string;
+  gender: string;
+  height: number;
+  actual_weight: number;
+  weight_management_goal: string;
+  physical_activity: string;
+  weight_goal: number;
+  birth_date: Date;
 };
 
-export default function RecipesTable() {
-  const { data, isLoading } = useRecipe();
-  const columnHelper = createColumnHelper<Recipe>();
+export default function UsersTable() {
+  const { data, isLoading } = useAllUsers();
+  const columnHelper = createColumnHelper<User>();
   const [sorting, setSorting] = useState<SortingState>([]);
 
   const columns = [
@@ -35,47 +34,45 @@ export default function RecipesTable() {
       cell: (info) => info.getValue(),
       header: "ID",
     }),
-    columnHelper.accessor("recipe_name", {
+    columnHelper.accessor("name", {
       cell: (info) => info.getValue(),
-      header: "Nazwa przepisu",
+      header: "Nazwa użytkownika",
     }),
-    columnHelper.accessor("ingredients", {
+    columnHelper.accessor("email", {
       cell: (info) => info.getValue(),
-      header: "Składniki",
+      header: "Email",
     }),
-    columnHelper.accessor("content_of_recipe", {
+    columnHelper.accessor("gender", {
       cell: (info) => info.getValue(),
-      header: "Treść przepisu",
+      header: "Płeć",
     }),
-    columnHelper.accessor("preparation_time", {
+    columnHelper.accessor("height", {
       cell: (info) => info.getValue(),
-      header: "Czas przygotowania",
-      size: 10,
+      header: "Wzrost",
     }),
-    columnHelper.accessor("number_of_servings", {
+    columnHelper.accessor("actual_weight", {
       cell: (info) => info.getValue(),
-      header: "Liczba porcji",
+      header: "Aktualna waga",
     }),
-    columnHelper.accessor("caloric_value", {
+    columnHelper.accessor("weight_management_goal", {
       cell: (info) => info.getValue(),
-      header: "Wartość kaloryczna",
+      header: "Cel zarządzania wagą",
     }),
-    columnHelper.accessor("carbohydrates", {
+    columnHelper.accessor("physical_activity", {
       cell: (info) => info.getValue(),
-      header: "Węglowodany",
+      header: "Aktywność fizyczna",
     }),
-    columnHelper.accessor("fats", {
+    columnHelper.accessor("weight_goal", {
       cell: (info) => info.getValue(),
-      header: "Tłuszcze",
-      size: 10,
+      header: "Cel wagi",
     }),
-    columnHelper.accessor("protein", {
+    columnHelper.accessor("birth_date", {
       cell: (info) => info.getValue(),
-      header: "Białko",
+      header: "Data urodzenia",
     }),
   ];
 
-  const table = useReactTable<Recipe>({
+  const table = useReactTable<User>({
     data: data || [],
     columns,
     state: {
