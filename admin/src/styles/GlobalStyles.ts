@@ -96,6 +96,17 @@ body {
   font-size: 1.6rem;
 }
 
+*::-webkit-scrollbar {
+  width: 12px;
+}
+*::-webkit-scrollbar-track {
+  background: var(--color-grey-100);
+}
+*::-webkit-scrollbar-thumb {
+  background-color: var(--color-grey-200);
+  border-radius: 10px;
+}
+
 input,
 button,
 textarea,

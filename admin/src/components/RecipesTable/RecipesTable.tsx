@@ -10,25 +10,16 @@ import { useRecipe } from "../../hooks/useRecipe";
 import Spinner from "../Spinner";
 import { useState } from "react";
 import Table from "../Table/Table";
-
-type Recipe = {
-  id: string;
-  recipe_name: string;
-  ingredients: string;
-  content_of_recipe: string;
-  preparation_time: number;
-  number_of_servings: number;
-  caloric_value: number;
-  carbohydrates: number;
-  fats: number;
-  protein: number;
-  photo_url: string;
-};
+import { Dropdown } from "antd";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import { RecipeTable, items } from "../../types/types";
+import { useDeleteRecipe } from "../../hooks/useDeleteRecipe";
 
 export default function RecipesTable() {
   const { data, isLoading } = useRecipe();
-  const columnHelper = createColumnHelper<Recipe>();
+  const columnHelper = createColumnHelper<RecipeTable>();
   const [sorting, setSorting] = useState<SortingState>([]);
+  const { deleteRecipe, isDeleting } = useDeleteRecipe();
 
   const columns = [
     columnHelper.accessor("id", {
@@ -73,9 +64,28 @@ export default function RecipesTable() {
       cell: (info) => info.getValue(),
       header: "Białko",
     }),
+    columnHelper.display({
+      id: "actions",
+      header: "Akcje",
+      cell: (info) => (
+        <Dropdown
+          menu={{
+            items,
+            onClick: ({ key }) =>
+              key === "edit"
+                ? console.log(key)
+                : deleteRecipe(info.row.original.id),
+          }}
+          placement='bottom'
+          disabled={isDeleting}
+        >
+          <BsThreeDotsVertical />
+        </Dropdown>
+      ),
+    }),
   ];
 
-  const table = useReactTable<Recipe>({
+  const table = useReactTable<RecipeTable>({
     data: data || [],
     columns,
     state: {
@@ -92,7 +102,7 @@ export default function RecipesTable() {
     getPaginationRowModel: getPaginationRowModel(),
   });
 
-  if (isLoading) return <Spinner />;
+  if (isLoading || isDeleting) return <Spinner />;
 
   return <Table table={table} />;
 }

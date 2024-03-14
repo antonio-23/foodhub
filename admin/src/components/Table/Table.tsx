@@ -1,68 +1,75 @@
 import { flexRender } from "@tanstack/react-table";
 import Button from "../Button";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
-import { useDarkMode } from "../../context/DarkModeContext";
 import { Input } from "../Input";
 import { Select } from "../Select";
 
 export default function Table({ table }: { table: any }) {
-  const { isDarkMode } = useDarkMode();
   return (
-    <div className='flex flex-col h-screen mx-auto'>
-      <table
-        className={`${isDarkMode ? "border border-gray-700" : "border border-gray-200"}`}
-      >
-        <thead>
-          {table.getHeaderGroups().map((headerGroup: any) => (
-            <tr
-              key={headerGroup.id}
-              className={`${isDarkMode ? "border-b border-gray-700 uppercase" : "border-b border-gray-200 uppercase"}`}
-            >
-              {headerGroup.headers.map((header: any) => (
-                <th
-                  key={header.id}
-                  className={`px-4 pr-2 py-4 font-medium text-left bg-gray-100 ${isDarkMode ? "bg-gray-800" : "bg-gray-100"}`}
-                >
-                  {header.isPlaceholder ? null : (
-                    <div
-                      {...{
-                        className: header.column.getCanSort()
-                          ? "cursor-pointer select-none flex min-w-[36px]"
-                          : "",
-                        onClick: header.column.getToggleSortingHandler(),
-                      }}
-                    >
-                      {flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                      {{
-                        asc: <span className='pl-2'>↑</span>,
-                        desc: <span className='pl-2'>↓</span>,
-                      }[header.column.getIsSorted() as string] ?? null}
-                    </div>
-                  )}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody>
-          {table.getRowModel().rows.map((row: any) => (
-            <tr
-              key={row.id}
-              className={`${isDarkMode ? "border-b border-gray-700" : "border-b border-gray-200"}`}
-            >
-              {row.getVisibleCells().map((cell: any) => (
-                <td key={cell.id} className='px-4 pt-[14px] pb-[18px]'>
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
+    <>
+      <div className='relative overflow-x-auto'>
+        <table
+          style={{
+            border: "1px solid var(--color-grey-200)",
+            borderRadius: "7px",
+            backgroundColor: "var(--color-grey-0)",
+            overflow: "hidden",
+          }}
+        >
+          <thead
+            style={{
+              backgroundColor: "var(--color-grey-50)",
+              borderBottom: "1px solid var(--color-grey-100)",
+              color: "var(--color-grey-600)",
+            }}
+          >
+            {table.getHeaderGroups().map((headerGroup: any) => (
+              <tr key={headerGroup.id}>
+                {headerGroup.headers.map((header: any) => (
+                  <th key={header.id}>
+                    {header.isPlaceholder ? null : (
+                      <div
+                        {...{
+                          className: header.column.getCanSort()
+                            ? "cursor-pointer select-none m-4"
+                            : "",
+                          onClick: header.column.getToggleSortingHandler(),
+                        }}
+                      >
+                        {flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                        {{
+                          asc: <span>↑</span>,
+                          desc: <span>↓</span>,
+                        }[header.column.getIsSorted() as string] ?? null}
+                      </div>
+                    )}
+                  </th>
+                ))}
+              </tr>
+            ))}
+          </thead>
+          <tbody>
+            {table.getRowModel().rows.map((row: any) => (
+              <tr
+                key={row.id}
+                style={{
+                  borderBottom: "1px solid var(--color-grey-100)",
+                  color: "var(--color-grey-600)",
+                }}
+              >
+                {row.getVisibleCells().map((cell: any) => (
+                  <td key={cell.id} className='px-6 py-4'>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       <div className='flex sm:flex-row flex-col w-full mt-8 items-center gap-2 text-md'>
         <div className='sm:mr-auto sm:mb-0 mb-2'>
           <span className='mr-2'>Ilość na stronie</span>
@@ -79,7 +86,7 @@ export default function Table({ table }: { table: any }) {
             ))}
           </Select>
         </div>
-        <div className='flex gap-4'>
+        <div className='flex gap-5'>
           <Button
             size='small'
             onClick={() => table.previousPage()}
@@ -109,6 +116,6 @@ export default function Table({ table }: { table: any }) {
           </Button>
         </div>
       </div>
-    </div>
+    </>
   );
 }

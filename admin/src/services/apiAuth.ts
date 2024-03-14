@@ -48,3 +48,14 @@ export async function allUsers() {
 
   return data;
 }
+
+export async function deleteUser(id: string) {
+  const { data } = await supabase
+    .from("user_informations")
+    .select("user_id")
+    .eq("id", id);
+
+  const { error } = await supabase.auth.admin.deleteUser(data?.at(0)?.user_id);
+
+  if (error) throw new Error(error.message);
+}

@@ -10,24 +10,16 @@ import { useAllUsers } from "../../hooks/useAllUsers";
 import { useState } from "react";
 import Spinner from "../Spinner";
 import Table from "../Table/Table";
-
-type User = {
-  id: string;
-  name: string;
-  email: string;
-  gender: string;
-  height: number;
-  actual_weight: number;
-  weight_management_goal: string;
-  physical_activity: string;
-  weight_goal: number;
-  birth_date: Date;
-};
+import { Dropdown } from "antd";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import { UserTable, items } from "../../types/types";
+import { useDeleteUser } from "../../hooks/useDeleteUser";
 
 export default function UsersTable() {
   const { data, isLoading } = useAllUsers();
-  const columnHelper = createColumnHelper<User>();
+  const columnHelper = createColumnHelper<UserTable>();
   const [sorting, setSorting] = useState<SortingState>([]);
+  const { deleteUser, isDeleting: isDeletingUser } = useDeleteUser();
 
   const columns = [
     columnHelper.accessor("id", {
@@ -70,9 +62,28 @@ export default function UsersTable() {
       cell: (info) => info.getValue(),
       header: "Data urodzenia",
     }),
+    columnHelper.display({
+      id: "actions",
+      header: "Akcje",
+      cell: (info) => (
+        <Dropdown
+          menu={{
+            items,
+            onClick: ({ key }) =>
+              key === "edit"
+                ? console.log(key)
+                : deleteUser(info.row.original.id),
+          }}
+          placement='bottom'
+          disabled={isDeletingUser}
+        >
+          <BsThreeDotsVertical />
+        </Dropdown>
+      ),
+    }),
   ];
 
-  const table = useReactTable<User>({
+  const table = useReactTable<UserTable>({
     data: data || [],
     columns,
     state: {
@@ -89,7 +100,7 @@ export default function UsersTable() {
     getPaginationRowModel: getPaginationRowModel(),
   });
 
-  if (isLoading) return <Spinner />;
+  if (isLoading || isDeletingUser) return <Spinner />;
 
   return <Table table={table} />;
 }
