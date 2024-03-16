@@ -10,9 +10,9 @@ import { useRecipe } from "../../hooks/useRecipe";
 import Spinner from "../Spinner";
 import { useState } from "react";
 import Table from "../Table/Table";
-import { Dropdown } from "antd";
+import { Dropdown, MenuProps } from "antd";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { RecipeTable, items } from "../../types/types";
+import { RecipeTable } from "../../types/types";
 import { useDeleteRecipe } from "../../hooks/useDeleteRecipe";
 
 export default function RecipesTable() {
@@ -20,6 +20,17 @@ export default function RecipesTable() {
   const columnHelper = createColumnHelper<RecipeTable>();
   const [sorting, setSorting] = useState<SortingState>([]);
   const { deleteRecipe, isDeleting } = useDeleteRecipe();
+
+  const items: MenuProps["items"] = [
+    {
+      key: "edit",
+      label: "Edytuj",
+    },
+    {
+      key: "delete",
+      label: "Usuń",
+    },
+  ];
 
   const columns = [
     columnHelper.accessor("id", {
@@ -104,5 +115,5 @@ export default function RecipesTable() {
 
   if (isLoading || isDeleting) return <Spinner />;
 
-  return <Table table={table} />;
+  return <Table table={table} modal={true} />;
 }

@@ -16,6 +16,14 @@ export const Row = styled.div<{ type?: string }>`
       flex-direction: column;
       gap: 1.6rem;
     `}
+
+  ${(props) =>
+    props.type === "center" &&
+    css`
+      justify-content: center;
+      align-items: center;
+      margin: 1rem;
+    `}
 `;
 
 Row.defaultProps = {

@@ -1,5 +1,3 @@
-import { MenuProps } from "antd";
-
 export interface User {
   email: string;
   password: string;
@@ -38,13 +36,14 @@ export type RecipeTable = {
   photo_url: string;
 };
 
-export const items: MenuProps["items"] = [
-  {
-    key: "edit",
-    label: "Edytuj",
-  },
-  {
-    key: "delete",
-    label: "Usuń",
-  },
-];
+export type Recipe = {
+  recipe_name: string;
+  ingredients: string;
+  content_of_recipe: string;
+  preparation_time: number;
+  number_of_servings: number;
+  caloric_value: number;
+  carbohydrates: number;
+  fats: number;
+  protein: number;
+};

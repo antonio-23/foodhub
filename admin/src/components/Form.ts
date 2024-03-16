@@ -10,6 +10,14 @@ export const Form = styled.form<{ type?: string }>`
       border-radius: var(--border-radius-md);
     `}
 
+  ${(props) =>
+    props.type === "form" &&
+    css`
+      padding: 2.4rem 4rem;
+      background-color: var(--color-grey-0);
+      border-radius: var(--border-radius-md);
+    `}
+
   overflow: hidden;
   font-size: 1.4rem;
 `;

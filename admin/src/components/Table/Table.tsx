@@ -3,8 +3,17 @@ import Button from "../Button";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { Input } from "../Input";
 import { Select } from "../Select";
+import { ButtonIcon } from "../ButtonIcon";
+import { Row } from "../Row";
+import Modal from "../Modal/Modal";
 
-export default function Table({ table }: { table: any }) {
+export default function Table({
+  table,
+  modal,
+}: {
+  table: any;
+  modal: boolean;
+}) {
   return (
     <>
       <div className='relative overflow-x-auto'>
@@ -69,6 +78,13 @@ export default function Table({ table }: { table: any }) {
             ))}
           </tbody>
         </table>
+        {modal && (
+          <Row type='center'>
+            <ButtonIcon>
+              <Modal />
+            </ButtonIcon>
+          </Row>
+        )}
       </div>
       <div className='flex sm:flex-row flex-col w-full mt-8 items-center gap-2 text-md'>
         <div className='sm:mr-auto sm:mb-0 mb-2'>

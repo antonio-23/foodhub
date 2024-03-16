@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const ButtonIcon = styled.button`
+export const ButtonIcon = styled.button<{ color?: string }>`
   background: none;
   border: none;
   padding: 0.6rem;
@@ -14,6 +14,6 @@ export const ButtonIcon = styled.button`
   & svg {
     width: 2.2rem;
     height: 2.2rem;
-    color: var(--color-brand-400);
+    color: ${(props) => props.color || "var(--color-brand-400)"};
   }
 `;

@@ -10,10 +10,10 @@ import { useAllUsers } from "../../hooks/useAllUsers";
 import { useState } from "react";
 import Spinner from "../Spinner";
 import Table from "../Table/Table";
-import { Dropdown } from "antd";
-import { BsThreeDotsVertical } from "react-icons/bs";
-import { UserTable, items } from "../../types/types";
+import { UserTable } from "../../types/types";
 import { useDeleteUser } from "../../hooks/useDeleteUser";
+import { ButtonIcon } from "../ButtonIcon";
+import { DeleteOutlined } from "@ant-design/icons";
 
 export default function UsersTable() {
   const { data, isLoading } = useAllUsers();
@@ -66,19 +66,12 @@ export default function UsersTable() {
       id: "actions",
       header: "Akcje",
       cell: (info) => (
-        <Dropdown
-          menu={{
-            items,
-            onClick: ({ key }) =>
-              key === "edit"
-                ? console.log(key)
-                : deleteUser(info.row.original.id),
-          }}
-          placement='bottom'
-          disabled={isDeletingUser}
+        <ButtonIcon
+          color='var(--color-red-700)'
+          onClick={() => deleteUser(info.row.original.id)}
         >
-          <BsThreeDotsVertical />
-        </Dropdown>
+          <DeleteOutlined />
+        </ButtonIcon>
       ),
     }),
   ];
@@ -102,5 +95,5 @@ export default function UsersTable() {
 
   if (isLoading || isDeletingUser) return <Spinner />;
 
-  return <Table table={table} />;
+  return <Table table={table} modal={false} />;
 }
