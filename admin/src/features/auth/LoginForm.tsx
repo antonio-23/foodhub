@@ -5,6 +5,7 @@ import FormRowVertical from "../../components/FormRowVertical/FormRowVertical";
 import { Input } from "../../components/Input";
 import { useLogin } from "../../hooks/useLogin";
 import { useForm } from "react-hook-form";
+import SpinnerMini from "../../components/SpinnerMini";
 
 interface IFormInput {
   email: string;
@@ -12,7 +13,8 @@ interface IFormInput {
 }
 export default function LoginForm() {
   const { login, isLoading } = useLogin();
-  const { register, handleSubmit, reset } = useForm<IFormInput>();
+  const { register, handleSubmit, reset, formState } = useForm<IFormInput>();
+  const { errors } = formState;
 
   function onSubmit({ email, password }: IFormInput) {
     login(
@@ -32,7 +34,7 @@ export default function LoginForm() {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <FormRowVertical label='Email'>
+      <FormRowVertical label='Email' error={errors.email?.message}>
         <Input
           placeholder='Email'
           type='email'
@@ -48,7 +50,7 @@ export default function LoginForm() {
           })}
         />
       </FormRowVertical>
-      <FormRowVertical label='Hasło'>
+      <FormRowVertical label='Hasło' error={errors.password?.message}>
         <Input
           placeholder='Hasło'
           type='password'
@@ -65,7 +67,7 @@ export default function LoginForm() {
       </FormRowVertical>
       <FormRowVertical>
         <Button size='large' disabled={isLoading}>
-          Zaloguj się
+          {!isLoading ? "Zaloguj się" : <SpinnerMini />}
         </Button>
       </FormRowVertical>
     </Form>

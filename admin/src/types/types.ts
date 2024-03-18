@@ -37,13 +37,13 @@ export type RecipeTable = {
 };
 
 export type Recipe = {
-  recipe_name: string;
-  ingredients: string;
-  content_of_recipe: string;
-  preparation_time: number;
-  number_of_servings: number;
-  caloric_value: number;
-  carbohydrates: number;
-  fats: number;
-  protein: number;
+  recipe_name?: string;
+  ingredients?: string;
+  content_of_recipe?: string;
+  preparation_time?: number;
+  number_of_servings?: number;
+  caloric_value?: number;
+  carbohydrates?: number;
+  fats?: number;
+  protein?: number;
 };

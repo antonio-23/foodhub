@@ -12,7 +12,7 @@ export default function Table({
   modal,
 }: {
   table: any;
-  modal: boolean;
+  modal?: boolean;
 }) {
   return (
     <>

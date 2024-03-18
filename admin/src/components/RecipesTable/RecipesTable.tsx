@@ -10,27 +10,16 @@ import { useRecipe } from "../../hooks/useRecipe";
 import Spinner from "../Spinner";
 import { useState } from "react";
 import Table from "../Table/Table";
-import { Dropdown, MenuProps } from "antd";
-import { BsThreeDotsVertical } from "react-icons/bs";
 import { RecipeTable } from "../../types/types";
 import { useDeleteRecipe } from "../../hooks/useDeleteRecipe";
+import { ButtonIcon } from "../ButtonIcon";
+import { DeleteOutlined } from "@ant-design/icons";
 
 export default function RecipesTable() {
   const { data, isLoading } = useRecipe();
   const columnHelper = createColumnHelper<RecipeTable>();
   const [sorting, setSorting] = useState<SortingState>([]);
   const { deleteRecipe, isDeleting } = useDeleteRecipe();
-
-  const items: MenuProps["items"] = [
-    {
-      key: "edit",
-      label: "Edytuj",
-    },
-    {
-      key: "delete",
-      label: "Usuń",
-    },
-  ];
 
   const columns = [
     columnHelper.accessor("id", {
@@ -79,19 +68,12 @@ export default function RecipesTable() {
       id: "actions",
       header: "Akcje",
       cell: (info) => (
-        <Dropdown
-          menu={{
-            items,
-            onClick: ({ key }) =>
-              key === "edit"
-                ? console.log(key)
-                : deleteRecipe(info.row.original.id),
-          }}
-          placement='bottom'
-          disabled={isDeleting}
+        <ButtonIcon
+          color='var(--color-red-700)'
+          onClick={() => deleteRecipe(info.row.original.id)}
         >
-          <BsThreeDotsVertical />
-        </Dropdown>
+          <DeleteOutlined />
+        </ButtonIcon>
       ),
     }),
   ];

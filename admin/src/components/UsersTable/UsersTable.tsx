@@ -95,5 +95,5 @@ export default function UsersTable() {
 
   if (isLoading || isDeletingUser) return <Spinner />;
 
-  return <Table table={table} modal={false} />;
+  return <Table table={table} />;
 }

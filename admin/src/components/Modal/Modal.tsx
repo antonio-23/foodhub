@@ -8,6 +8,7 @@ import { Input } from "../Input";
 import Textarea from "../Textarea";
 import { useForm } from "react-hook-form";
 import { useAddRecipe } from "../../hooks/useAddRecipe";
+import { Recipe } from "../../types/types";
 
 const App: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -18,7 +19,7 @@ const App: React.FC = () => {
     setIsModalOpen(true);
   };
 
-  const handleOk = (data: any) => {
+  const handleOk = (data: Recipe) => {
     addRecipe(data);
     setIsModalOpen(false);
     reset();
