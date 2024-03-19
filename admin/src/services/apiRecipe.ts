@@ -25,3 +25,13 @@ export async function addRecipe(recipe: Recipe) {
 
   return data;
 }
+
+export async function numberOfRecipes() {
+  const { data, error } = await supabase
+    .from("recipes")
+    .select("id", { count: "exact" });
+
+  if (error) throw new Error(error.message);
+
+  return data?.length;
+}

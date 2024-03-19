@@ -59,3 +59,13 @@ export async function deleteUser(id: string) {
 
   if (error) throw new Error(error.message);
 }
+
+export async function numberOfUsers() {
+  const { data, error } = await supabase
+    .from("user_informations")
+    .select("id", { count: "exact" });
+
+  if (error) throw new Error(error.message);
+
+  return data?.length;
+}
