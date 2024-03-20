@@ -1,17 +1,15 @@
-import Charts from "../components/Charts";
-import Header from "../components/Header";
-import Tickets from "../components/Tickets";
-import { Content, Wrapper } from "./styles";
+import { Heading } from "../components/Heading";
+import { Row } from "../components/Row";
+import DashboardLayout from "../features/Dashboard/DashboardLayout";
 
 function Dashboard() {
   return (
-    <Wrapper>
-      <Header label="Panel główny" />
-      <Content>
-        <Charts />
-        <Tickets />
-      </Content>
-    </Wrapper>
+    <>
+      <Row type='horizontal'>
+        <Heading as='h1'>Strona główna</Heading>
+      </Row>
+      <DashboardLayout />
+    </>
   );
 }
 

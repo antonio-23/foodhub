@@ -1,15 +1,17 @@
-import Header from "../components/Header";
-import UsersTable from "../components/UsersTable";
-import { Content, Wrapper } from "./styles";
+import { Heading } from "../components/Heading";
+import { Row } from "../components/Row";
+import UsersTable from "../components/UsersTable/UsersTable";
 
 function Users() {
   return (
-    <Wrapper>
-      <Header label="Użytkownicy" />
-      <Content>
+    <>
+      <Row type='horizontal'>
+        <Heading as='h1'>Użytkownicy</Heading>
+      </Row>
+      <Row>
         <UsersTable />
-      </Content>
-    </Wrapper>
+      </Row>
+    </>
   );
 }
 

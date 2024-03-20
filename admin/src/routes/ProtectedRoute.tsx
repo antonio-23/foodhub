@@ -1,16 +1,31 @@
-import React from "react";
-import { useUser } from "../hooks/useUser";
-import FullScreenSpinner from "../components/FullScreenSpinner";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../hooks/useUser";
+import { useEffect } from "react";
+import { FullPage } from "./styles";
+import Spinner from "../components/Spinner";
 
-function ProtectedRoute({ children }: { children: React.ReactNode }) {
+export default function ProtectedRoute({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const navigate = useNavigate();
-  const { user, isLoading } = useUser();
-  if (!user) {
-    navigate("/login");
-  }
-  if (isLoading) return <FullScreenSpinner />;
-  return children;
-}
+  const { isLoading, isAuthenticated } = useUser();
 
-export default ProtectedRoute;
+  useEffect(() => {
+    if (!isAuthenticated && !isLoading) {
+      navigate("/login");
+    }
+  }, [isAuthenticated, isLoading, navigate]);
+
+  if (isLoading)
+    return (
+      <FullPage>
+        <Spinner />
+      </FullPage>
+    );
+
+  if (isAuthenticated) return children;
+
+  return <div>ProtectedRoute</div>;
+}
