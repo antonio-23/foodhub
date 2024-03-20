@@ -17,13 +17,13 @@ export default function Stats() {
         title='Liczba użytkowników'
         color='green'
         icon={<UserOutlined />}
-        value={numberOfRecipes ?? 0}
+        value={numberOfUsers ?? 0}
       />
       <Stat
-        title='Liczba przepisoów'
+        title='Liczba przepisów'
         color='indigo'
         icon={<BookOutlined />}
-        value={numberOfUsers ?? 0}
+        value={numberOfRecipes ?? 0}
       />
     </>
   );

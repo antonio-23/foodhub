@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const StyledDashboardLayout = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto 34rem auto;
+  grid-template-rows: auto 34rem;
   gap: 2.4rem;
 `;
 
@@ -50,4 +50,21 @@ export const Value = styled.p`
   font-size: 2.4rem;
   line-height: 1;
   font-weight: 500;
+`;
+
+export const ChartBox = styled.div`
+  background-color: var(--color-grey-0);
+  border: 1px solid var(--color-grey-100);
+  border-radius: var(--border-radius-md);
+
+  padding: 2.4rem 3.2rem;
+  grid-column: 1 / -1;
+
+  & > *:first-child {
+    margin-bottom: 1.6rem;
+  }
+
+  & .recharts-pie-label-text {
+    font-weight: 600;
+  }
 `;

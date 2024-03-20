@@ -9,7 +9,6 @@ import AppLayout from "./components/AppLayout/AppLayout";
 import { DarkModeProvider } from "./context/DarkModeContext";
 import Account from "./pages/Account";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import { Toaster } from "react-hot-toast";
 
@@ -19,7 +18,6 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <DarkModeProvider>
-        <ReactQueryDevtools initialIsOpen={false} />
         <GlobalStyles />
 
         <BrowserRouter>

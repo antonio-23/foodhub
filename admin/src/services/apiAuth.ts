@@ -69,3 +69,26 @@ export async function numberOfUsers() {
 
   return data?.length;
 }
+
+export async function gender() {
+  const { data, error } = await supabase
+    .from("user_informations")
+    .select("gender");
+
+  if (error) throw new Error(error.message);
+
+  let maleCount = 0;
+  let femaleCount = 0;
+
+  data?.forEach((user: any) => {
+    if (user.gender === "MALE") maleCount++;
+    if (user.gender === "FEMALE") femaleCount++;
+  });
+
+  const genderData = [
+    { name: "Kobiety", value: femaleCount, color: "#eab308" },
+    { name: "Mężczyźni", value: maleCount, color: "#22c55e" },
+  ];
+
+  return genderData;
+}
