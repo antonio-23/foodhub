@@ -1,4 +1,40 @@
-# FoodHub
+# FoodHub | [LIVE DEMO](https://foodhub-antonio-23.netlify.app)
+
+## 📝 Project description
+FoodHub is a mobile application written in React Native, which was developed with my colleagues from college. The main goal of this project was to create a diet management app.
+
+## ✨ Features
+- Diet management
+- Recipes
+- Tracking physical progress
+- Admin panel
+
+## 🔮 Tech stack
+- React Native
+- React
+- TypeScript
+- Expo
+- Tailwind CSS
+- Styled-Components
+- Ant Design
+- Recharts
+- Zustand
+- React Query
+- React-Table
+- React-Hook-Form
+- Supabase
+
+## 🚀 Getting Started 
+
+To run the project locally, follow these steps:
+
+1. Clone the repository: `git clone git@github.com:antonio-23/foodhub.git`.
+2. Navigate to the project directory: `cd mobile` for mobile or `admin` for admin.
+3. Install dependencies: `npm install`.
+4. Start the development server: `npm run start` for mobile or `npm run dev` for admin.
+5. Open your web browser and go to `http://localhost:5173`.
+  
+## 📸 Screenshots
 
 <div>
   <img
@@ -32,5 +68,9 @@
   <img
     style="width:300px;"
   src="https://github.com/antonio-23/foodhub/assets/65775402/6369cb83-a0a1-4499-9904-a406f71e98a2"
+  alt="User profile screen" />
+  <img
+    style="width:600px;"
+  src="https://github.com/antonio-23/foodhub/assets/65775402/b6cef0bf-01ac-439d-bcf7-c0e90d83847f"
   alt="User profile screen" />
 </div>
