@@ -1,4 +1,4 @@
-# FoodHub | [LIVE DEMO](https://foodhub-antonio-23.netlify.app)
+# FoodHub | [LIVE DEMO](https://foodhub-antdev.netlify.app)
 
 ## 📝 Project description
 FoodHub is a mobile application written in React Native, which was developed with my colleagues from college. The main goal of this project was to create a diet management app.
